@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample HTML Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f4f4f9;
-    }
-    h1 {
-      color: #333;
-    }
-    p {
-      color: #555;
-      font-size: 16px;
-    }
-    ul {
-      list-style-type: square;
-      margin: 20px 0;
-    }
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickPlay API Call with Axios</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+        #loading {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <h1>Call QuickPlay API</h1>
+    <button id="callApiButton">Call QuickPlay API</button>
+    <div id="loading">Loading...</div>
+    <div id="response"></div>
 
-  <h1>Welcome to My Sample HTML Page</h1>
+    <script>
+        // Input data for the API request
+        const data = {
+    name: "QuickPlay 1",
+    duration: 10,
+    composition_id: "672ca7ce015501b29d06275a",
+    screen_ids: [
+        "62666ac079d4d8df3e7adc87",
+        "672b6d70072ffbdf4b6746ac"
+    ]
+};
 
-  <p id="myParagraph">This is a simple paragraph. Click the button to change this text.</p>
+        // Function to handle the API call
+        function callQuickPlayAPI() {
+            // Show loading text
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('response').innerHTML = ''; // Clear previous response
 
-  <button onclick="changeText()">Click Me!</button>
+            // Make the request to the backend server
+            axios.post('http://193.203.163.222:3000/api/callQuickPlay', data)
+                .then(response => {
+                    // Hide loading text
+                    document.getElementById('loading').style.display = 'none';
+                    // Display the API response
+                    document.getElementById('response').innerHTML = JSON.stringify(response.data, null, 2);
+                })
+                .catch(error => {
+                    // Hide loading text
+                    document.getElementById('loading').style.display = 'none';
+                    // Display error message
+                    document.getElementById('response').innerHTML = 'Error: ' + (error.response ? error.response.data.error : error.message);
+                });
+        }
 
-  <h2>Here’s a List of Some Items:</h2>
-  <ul>
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-    <li>Item 4</li>
-  </ul>
-
-  <script>
-    function changeText() {
-      document.getElementById('myParagraph').innerText = 'The text has been changed!';
-    }
-  </script>
-
+        // Event listener for the button click
+        document.getElementById('callApiButton').addEventListener('click', callQuickPlayAPI);
+    </script>
 </body>
 </html>
