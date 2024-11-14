@@ -6,38 +6,98 @@
     <title>QuickPlay API Call with Axios</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
         }
+
+        /* Set the background image */
+        .background {
+            background-image: url('https://drive.google.com/uc?id=1-21TMxoj7QM89w8wgKKFRhyfTNiZRBHo'); /* Direct Google Drive image link */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Button Styles */
+        #goButton {
+            font-size: 24px;
+            padding: 20px 40px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        #goButton:hover {
+            background-color: darkgreen;
+        }
+
+        #resetButton {
+            font-size: 14px;
+            padding: 10px 20px;
+            color: white;
+            background-color: blue;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #resetButton:hover {
+            background-color: darkblue;
+        }
+
+        /* Response box styles */
         #response {
             margin-top: 20px;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: rgba(255, 255, 255, 0.8);
             border: 1px solid #ccc;
+            max-width: 80%;
+            margin-top: 20px;
+            overflow-y: auto;
+            height: 200px;
+            width: 100%;
         }
+
         #loading {
             display: none;
+            color: white;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Call QuickPlay API</h1>
-    <button id="callApiButton">Call QuickPlay API</button>
-    <div id="loading">Loading...</div>
-    <div id="response"></div>
+    <div class="background">
+        <h1 style="color: white; text-align: center;">QuickPlay API</h1>
+        <div style="text-align: center;">
+            <button id="goButton">Go</button>
+            <button id="resetButton">Reset</button>
+        </div>
+        <div id="loading">Loading...</div>
+        <div id="response"></div>
+    </div>
 
     <script>
         // Input data for the API request
         const data = {
-    name: "QuickPlay 1",
-    duration: 10,
-    composition_id: "672ca7ce015501b29d06275a",
-    screen_ids: [
-        "62666ac079d4d8df3e7adc87",
-        "672b6d70072ffbdf4b6746ac"
-    ]
-};
+            name: "QuickPlay 1",
+            duration: 10,
+            composition_id: "672ca7ce015501b29d06275a",
+            screen_ids: [
+                "62666ac079d4d8df3e7adc87",
+                "672b6d70072ffbdf4b6746ac"
+            ]
+        };
 
         // Function to handle the API call
         function callQuickPlayAPI() {
@@ -61,8 +121,15 @@
                 });
         }
 
-        // Event listener for the button click
-        document.getElementById('callApiButton').addEventListener('click', callQuickPlayAPI);
+        // Function to reset the page
+        function resetPage() {
+            document.getElementById('response').innerHTML = '';
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // Event listeners for the buttons
+        document.getElementById('goButton').addEventListener('click', callQuickPlayAPI);
+        document.getElementById('resetButton').addEventListener('click', resetPage);
     </script>
 </body>
 </html>
